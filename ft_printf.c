@@ -40,12 +40,7 @@ static int	print_digit(unsigned long n, unsigned int base, char *symbol)
 {
 	int		count;
 
-	if (n < 0)
-	{
-		count = write(1, "-", 1);
-		n *= -1;
-	}
-	else if (n < base)
+	if (n < base)
 	{
 		return (print_char(symbol[n]));
 	}
@@ -67,7 +62,16 @@ static int	print_format(char specifier, va_list ap)
 	else if (specifier == 's')
 		count += print_str(va_arg(ap, char *));
 	else if (specifier == 'd' || specifier == 'i')
-		count += print_digit(va_arg(ap, int), 10, "0123456789");
+	{
+		int num = va_arg(ap, int);
+
+		if (num < 0)
+		{
+			count += write(1, "-", 1);
+			num = -num;
+		}
+		count += print_digit((unsigned long)num, 10, "0123456789");
+	}
 	else if (specifier == 'x')
 		count += print_digit(va_arg(ap, unsigned int), 16, "0123456789abcdef");
 	else if (specifier == 'X')
@@ -118,27 +122,18 @@ int	main()
 {
 	int		my_nbytes	= 0;
 	int		nbytes		= 0;
-	//char	*user		= "JHON";
+	char	*user		= "JHON";
 	short	age			= 24;
 	int		lvl			= 4;
-	//void	*location	= &user;
+	void	*location	= &user;
 	void	*new		= &age;
 
-	my_nbytes = printf("User1: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)NULL, age, lvl, NULL, new);
-	nbytes = ft_printf("User2: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)NULL, age, lvl, NULL, new);
+	//my_nbytes = printf("User1: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)NULL, age, lvl, NULL, new);
+	//nbytes = ft_printf("User2: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)NULL, age, lvl, NULL, new);
+	my_nbytes = printf("User1: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)user, age, lvl, location, new);
+	nbytes = ft_printf("User2: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)user, age, lvl, location, new);
 	printf("My printf\t\tprint %dbytes\n", nbytes);
 	printf("The Oiginal printf\tprint %dbytes\n", my_nbytes);
 	return(0);
 }
-/* debo sacar el control de if(n < 0) print - y count +1 y llevarlo a la funcion de print_format en el caso especifico de los %d y %i. De modo contrario estas flags no estan soportando los imputs de int negativos, pues seran casteados al ingresar a un unsigned long, wich forse to positive value.
-else if (specifier == 'd' || specifier == 'i')
-{
-	int num = va_arg(ap, int);
-
-	if (num < 0)
-	{
-		count += write(1, "-", 1);
-		num = -num;
-	}
-	count += print_digit((unsigned long)num, 10, "0123456789");
-}*/
+/*Necesito disminuir funciond de impresion de formatos. Para ello o implemento un archivo de impresores de formato especificos, o function que plantea los casos de digit, para manipular los parametros obtenidos segun el flag e implementar correctamente en print format*/
