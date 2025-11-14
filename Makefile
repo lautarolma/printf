@@ -5,7 +5,7 @@
 
 # == Compilation Settings ==================================================== #
 
-NAME		= 	printf.a
+NAME		= 	libftprintf.a
 
 CC			= 	cc
 
@@ -13,7 +13,7 @@ CFLAGS		=	-Wall -Wextra -Werror
 
 # == Sources ================================================================= #
 
-SRCS		=	ft_printf.c
+SRCS		=	ft_printf.c ft_printf_utils.c
 OBJS		= 	$(SRCS:.c=.o)
 
 # == Rules =================================================================== #

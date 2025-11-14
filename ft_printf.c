@@ -10,83 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "ft_printf.h"
 
-static int	print_char(char c)
-{
-	return (write(1, &c, 1));
-}
-
-static int	print_str(char *str)
-{
-	int	count;
-
-	if (!str)
-		return (write(1, "(null)", 6));
-	count = 0;
-	while (*str)
-	{
-		print_char((int)*str);
-		++count;
-		++str;
-	}
-	return (count);
-}
-
-static int	print_digit(unsigned long n, unsigned int base, char *symbol)
+int	print_format(char specifier, va_list ap)
 {
 	int		count;
 
-	if (n < base)
-	{
-		return (print_char(symbol[n]));
-	}
-	else
-		count = print_digit(n / base, base, symbol);
-	return (count + print_digit(n % base, base, symbol));
-}
-
-static int	print_format(char specifier, va_list ap)
-{
-	int		count;
-	void	*ptr;
-	char	*x_base;
-
-	x_base = "0123456789abcdef";
 	count = 0;
 	if (specifier == 'c')
 		count += print_char(va_arg(ap, int));
 	else if (specifier == 's')
 		count += print_str(va_arg(ap, char *));
 	else if (specifier == 'd' || specifier == 'i')
-	{
-		int num = va_arg(ap, int);
-
-		if (num < 0)
-		{
-			count += write(1, "-", 1);
-			num = -num;
-		}
-		count += print_digit((unsigned long)num, 10, "0123456789");
-	}
+		count += print_signed((long long)va_arg(ap, int), 10, "0123456789");
+	else if (specifier == 'u')
+		count += print_unsigned((unsigned long long)va_arg(ap, unsigned int),
+				10, "0123456789");
 	else if (specifier == 'x')
-		count += print_digit(va_arg(ap, unsigned int), 16, "0123456789abcdef");
+		count += print_unsigned((unsigned long long)va_arg(ap, unsigned int),
+				16, "0123456789abcdef");
 	else if (specifier == 'X')
-		count += print_digit(va_arg(ap, unsigned int), 16, "0123456789ABCDEF");
+		count += print_unsigned((unsigned long long)va_arg(ap, unsigned int),
+				16, "0123456789ABCDEF");
 	else if (specifier == 'p')
-	{
-		ptr = va_arg(ap, void *);
-		if (ptr == NULL)
-			count += write(1, "(nil)", 5);
-		else
-		{
-			count += write(1, "0x", 2);
-			count += print_digit((unsigned long)ptr, 16, x_base);
-		}
-	}
+		count += print_pointer(va_arg(ap, void *));
 	else
 		count += write(1, &specifier, 1);
 	return (count);
@@ -105,7 +52,8 @@ int	ft_printf(char const *format, ...)
 	{
 		if (*format == '%')
 		{
-			count += print_format(*++format, ap);
+			format++;
+			count += print_format(*format, ap);
 			format++;
 		}
 		else
@@ -117,23 +65,23 @@ int	ft_printf(char const *format, ...)
 	va_end(ap);
 	return (count);
 }
-
+/*
 int	main()
 {
 	int		my_nbytes	= 0;
 	int		nbytes		= 0;
 	char	*user		= "JHON";
-	short	age			= 24;
-	int		lvl			= 4;
+	int		age			= 24;
+	int		lvl			= 45643784;
 	void	*location	= &user;
 	void	*new		= &age;
+	char	bloodtype	= 'B';
 
 	//my_nbytes = printf("User1: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)NULL, age, lvl, NULL, new);
 	//nbytes = ft_printf("User2: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)NULL, age, lvl, NULL, new);
-	my_nbytes = printf("User1: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)user, age, lvl, location, new);
-	nbytes = ft_printf("User2: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)user, age, lvl, location, new);
+	my_nbytes = printf(" User1: %s\n Blood Type: %c\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)user, bloodtype, age, lvl, location, new);
+	nbytes = ft_printf(" User2: %s\n Blood Type: %c\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)user, bloodtype, age, lvl, location, new);
 	printf("My printf\t\tprint %dbytes\n", nbytes);
 	printf("The Oiginal printf\tprint %dbytes\n", my_nbytes);
 	return(0);
-}
-/*Necesito disminuir funciond de impresion de formatos. Para ello o implemento un archivo de impresores de formato especificos, o function que plantea los casos de digit, para manipular los parametros obtenidos segun el flag e implementar correctamente en print format*/
+}*/
