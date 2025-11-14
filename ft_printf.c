@@ -72,7 +72,7 @@ int	main()
 	int		nbytes		= 0;
 	char	*user		= "JHON";
 	int		age			= 24;
-	int		lvl			= 45643784;
+	int		lvl			= 5;
 	void	*location	= &user;
 	void	*new		= &age;
 	char	bloodtype	= 'B';
