@@ -6,7 +6,7 @@
 /*   By: laviles <laviles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 03:17:47 by laviles           #+#    #+#             */
-/*   Updated: 2025/11/09 07:07:26 by laviles          ###   ########.fr       */
+/*   Updated: 2025/11/15 23:48:08 by laviles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,19 @@ int	main()
 	void	*new		= &age;
 	char	bloodtype	= 'B';
 
-	//my_nbytes = printf("User1: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)NULL, age, lvl, NULL, new);
-	//nbytes = ft_printf("User2: %s\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)NULL, age, lvl, NULL, new);
-	my_nbytes = printf(" User1: %s\n Blood Type: %c\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)user, bloodtype, age, lvl, location, new);
-	nbytes = ft_printf(" User2: %s\n Blood Type: %c\n Age: %d\n Language lvl: %i\n Memory Location:\t %p\n Next Location Adress: \t %p\n\n", (char *)user, bloodtype, age, lvl, location, new);
-	printf("My printf\t\tprint %dbytes\n", nbytes);
+//	my_nbytes = printf("User1: %s\n Age: %d\n Language lvl: %i\n
+//		Memory Location:\t %p\n Next Location Adress: \t %p\n\n",
+//		(char *)NULL, age, lvl, NULL, new);
+//	nbytes = ft_printf("User2: %s\n Age: %d\n Language lvl: %i\n
+//		Memory Location:\t %p\n Next Location Adress: \t %p\n\n",
+//		(char *)NULL, age, lvl, NULL, new);
+	my_nbytes = printf(" User1: %s\n Blood Type: %c\n Age: %d\n Language lvl:\
+	%i\n Memory Location:\t %p\n Next Location Adress: \t %p\n %%100\n\n",\
+	(char *)user, bloodtype, age, lvl, location, new);
+	nbytes = ft_printf(" User2: %s\n Blood Type: %c\n Age: %d\n Language lvl:\
+	%i\n Memory Location:\t %p\n Next Location Adress: \t %p\n %%100\n\n",\
+	(char *)user, bloodtype, age, lvl, location, new);
 	printf("The Oiginal printf\tprint %dbytes\n", my_nbytes);
+	printf("My printf\t\tprint %dbytes\n", nbytes);
 	return(0);
 }*/
