@@ -5,7 +5,7 @@
 
 # == Compilation Settings ==================================================== #
 
-NAME		= 	libftprintf.a
+NAME		= 	ft_printf.a
 
 CC			= 	cc
 
